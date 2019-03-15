@@ -1,6 +1,7 @@
 ﻿using Superheroes.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -24,8 +25,9 @@ namespace Superheroes.Controllers
         }
 
         // GET: Superhero/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
+            Superhero superhero = db.Superhero.Find(id);
             return View();
         }
 
@@ -53,18 +55,20 @@ namespace Superheroes.Controllers
         }
 
         // GET: Superhero/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
+            Superhero superhero = db.Superhero.Find(id);
             return View();
         }
 
         // POST: Superhero/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit([Bind(Include = "Name,AlterEgo,PrimaryAbility,SecondAbility,Catchphrase")] Superhero superhero)
         {
             try
             {
-                // TODO: Add update logic here
+                db.Entry(superhero).State = EntityState.Modified;
+                db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
