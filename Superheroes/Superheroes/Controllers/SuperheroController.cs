@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -27,8 +28,16 @@ namespace Superheroes.Controllers
         // GET: Superhero/Details/5
         public ActionResult Details(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             Superhero superhero = db.Superhero.Find(id);
-            return View();
+            if (superhero == null)
+            {
+                return HttpNotFound();
+            }
+            return View(superhero);
         }
 
         // GET: Superhero/Create
@@ -57,25 +66,29 @@ namespace Superheroes.Controllers
         // GET: Superhero/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             Superhero superhero = db.Superhero.Find(id);
-            return View();
+            if (superhero == null)
+            {
+                return HttpNotFound();
+            }
+            return View(superhero);
         }
 
         // POST: Superhero/Edit/5
         [HttpPost]
         public ActionResult Edit([Bind(Include = "Name,AlterEgo,PrimaryAbility,SecondAbility,Catchphrase")] Superhero superhero)
         {
-            try
+            if (ModelState.IsValid)
             {
                 db.Entry(superhero).State = EntityState.Modified;
                 db.SaveChanges();
-
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return View(superhero);
         }
 
         // GET: Superhero/Delete/5
