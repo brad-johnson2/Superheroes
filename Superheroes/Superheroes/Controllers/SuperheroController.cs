@@ -75,20 +75,24 @@ namespace Superheroes.Controllers
         }
 
         // GET: Superhero/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
+            Superhero superhero = db.Superhero.Find(id);
             return View();
         }
 
         // POST: Superhero/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                Superhero superhero = db.Superhero.Find(id);
+                db.Superhero.Remove(superhero);
+                db.SaveChanges();
                 return RedirectToAction("Index");
+
+             
             }
             catch
             {
