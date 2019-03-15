@@ -37,11 +37,12 @@ namespace Superheroes.Controllers
 
         // POST: Superhero/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Superhero superhero)
         {
             try
             {
-                // TODO: Add insert logic here
+                db.Superhero.Add(superhero);
+                db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
