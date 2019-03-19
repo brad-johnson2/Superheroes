@@ -80,7 +80,7 @@ namespace Superheroes.Controllers
 
         // POST: Superhero/Edit/5
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "Name,AlterEgo,PrimaryAbility,SecondAbility,Catchphrase")] Superhero superhero)
+        public ActionResult Edit([Bind(Include = "Name,Id,AlterEgo,PrimaryAbility,SecondAbility,Catchphrase")] Superhero superhero)
         {
             if (ModelState.IsValid)
             {
